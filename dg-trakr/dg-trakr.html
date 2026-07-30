@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>DG_Trakr</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../style.css">
     <style>
         .view-step { display: none; }
@@ -13,41 +12,57 @@
         
         /* Tactical Score Display */
         .score-display {
-            font-size: 6rem;
+            font-size: 5.5rem;
             line-height: 1;
             font-weight: 700;
             letter-spacing: -0.05em;
         }
         
         .hole-chip {
-            background: var(--te-bg);
+            background: var(--te-key-bg);
             border: 1px solid var(--te-border);
-            padding: 4px;
+            border-radius: 10px;
+            padding: 6px 10px;
             text-align: center;
+            cursor: pointer;
+            transition: transform 0.15s ease, background 0.15s ease;
+        }
+        .hole-chip:active {
+            transform: scale(0.92);
         }
 
-        /* Registration Input Override */
+        /* Modern Input Styling */
         #new-name {
-            background: transparent;
-            border-bottom: 2px solid var(--te-border);
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--te-border);
+            border-radius: 12px;
             outline: none;
-            font-family: 'JetBrains Mono', monospace;
+            padding: 10px 14px;
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+        [data-theme="dark"] #new-name {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        #new-name:focus {
+            border-color: var(--te-orange);
         }
     </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col justify-between antialiased">
 
     <header>
         <div>
             <p class="label">Module: Athletics_01</p>
-            <h1 class="text-xl font-bold italic">DG_TRAKR.EXE</h1>
+            <h1 class="text-xl">DG_TRAKR<span class="font-normal opacity-50">//</span>EXE</h1>
         </div>
-        <div class="flex gap-4">
+        <div class="flex gap-4 items-center">
             <div class="text-right">
                 <p class="label">System_Status</p>
                 <p class="value" id="sys-status">STANDBY</p>
             </div>
-            <button class="te-key orange" onclick="toggleTheme()" aria-label="Toggle Theme"></button>
+            <button class="te-key orange" onclick="toggleTheme()" aria-label="Toggle Theme">
+                <span class="w-2.5 h-2.5 bg-white rounded-full inline-block"></span>
+            </button>
         </div>
     </header>
 
@@ -57,43 +72,43 @@
                 <div>
                     <p class="label">Registration_Port</p>
                     <div id="player-setup-list" class="space-y-2 mt-4 mb-6"></div>
-                    <div class="flex gap-2">
-                        <input id="new-name" type="text" placeholder="PLAYER NAME" class="flex-1 text-sm uppercase">
-                        <button onclick="addPlayer()" class="te-key">ADD</button>
+                    <div class="flex gap-2 items-center">
+                        <input id="new-name" type="text" placeholder="PLAYER NAME" class="flex-1 text-sm font-semibold uppercase">
+                        <button onclick="addPlayer()" class="te-key !w-20 !h-11 !rounded-xl text-xs">ADD</button>
                     </div>
                 </div>
-                <div class="mt-10">
-                    <button onclick="startRound()" class="te-key orange w-full !h-16 text-lg">INITIALIZE_ROUND</button>
+                <div class="mt-8">
+                    <button onclick="startRound()" class="te-key orange w-full !h-14 !rounded-2xl text-base font-semibold tracking-tight">INITIALIZE_ROUND</button>
                 </div>
             </div>
         </section>
 
         <section id="game-view" class="view-step md:col-span-3">
-            <div class="grid lg:grid-cols-2 gap-4">
+            <div class="grid lg:grid-cols-2 gap-6">
                 <div class="te-panel">
-                    <div id="player-selector" class="flex flex-wrap gap-2 mb-6 border-b border-black pb-4"></div>
+                    <div id="player-selector" class="flex flex-wrap gap-2 mb-6 pb-4 border-b border-black/5 dark:border-white/10"></div>
                     
-                    <div id="par-prompter" class="mb-4 bg-neutral-200 p-4 rounded hidden text-center">
+                    <div id="par-prompter" class="mb-6 bg-black/5 dark:bg-white/5 p-4 rounded-2xl hidden text-center">
                         <p class="label">Set Par // Hole <span id="current-h-num">1</span></p>
-                        <div class="flex items-center justify-center gap-6 mt-2">
-                            <button onclick="adjPar(-1)" class="te-key">[-]</button>
+                        <div class="flex items-center justify-center gap-6 mt-3">
+                            <button onclick="adjPar(-1)" class="te-key !w-10 !h-10 text-base">[-]</button>
                             <span id="par-val" class="text-3xl font-bold">3</span>
-                            <button onclick="adjPar(1)" class="te-key">[+]</button>
+                            <button onclick="adjPar(1)" class="te-key !w-10 !h-10 text-base">[+]</button>
                         </div>
                     </div>
 
-                    <div id="scorer-ui" class="text-center py-6 border-y border-black border-dashed my-4">
-                        <p id="target-name" class="label !opacity-100 font-bold text-lg mb-4">SELECT PLAYER</p>
+                    <div id="scorer-ui" class="text-center py-6 border-y border-black/5 dark:border-white/10 my-4">
+                        <p id="target-name" class="label !opacity-100 font-bold text-lg mb-4 tracking-tight">SELECT PLAYER</p>
                         <div class="flex items-center justify-center gap-8">
-                            <button onclick="adjScore(-1)" class="te-key !h-16 !w-16 text-2xl">[-]</button>
+                            <button onclick="adjScore(-1)" class="te-key !h-16 !w-16 text-2xl !rounded-2xl">[-]</button>
                             <span id="stroke-count" class="score-display">3</span>
-                            <button onclick="adjScore(1)" class="te-key !h-16 !w-16 text-2xl">[+]</button>
+                            <button onclick="adjScore(1)" class="te-key !h-16 !w-16 text-2xl !rounded-2xl">[+]</button>
                         </div>
                     </div>
 
-                    <div class="space-y-4">
-                        <button onclick="logScore()" class="te-key orange w-full !h-12">COMMIT_SCORE</button>
-                        <button onclick="finishRound()" class="label w-full hover:opacity-100 transition">FINALIZE ARCHIVE</button>
+                    <div class="space-y-3 mt-6">
+                        <button onclick="logScore()" class="te-key orange w-full !h-12 !rounded-xl font-semibold">COMMIT_SCORE</button>
+                        <button onclick="finishRound()" class="label w-full text-center hover:opacity-100 transition py-2">FINALIZE ARCHIVE</button>
                     </div>
                 </div>
 
@@ -106,30 +121,32 @@
 
         <section id="summary-view" class="view-step md:col-span-2">
             <div class="te-panel max-w-2xl mx-auto">
-                <div class="text-center border-b border-black pb-6 mb-6">
+                <div class="text-center border-b border-black/5 dark:border-white/10 pb-6 mb-6">
                     <p class="label">Closing_Statement</p>
-                    <h2 class="text-4xl font-bold italic uppercase tracking-tighter">Round_Complete</h2>
-                    <p id="final-date" class="label mt-2"></p>
+                    <h2 class="text-3xl font-semibold tracking-tight uppercase">Round_Complete</h2>
+                    <p id="final-date" class="label mt-1"></p>
                 </div>
                 <div id="awards-grid" class="grid grid-cols-2 gap-4 mb-8"></div>
-                <div id="final-standings" class="space-y-1 mb-8"></div>
-                <button onclick="resetApp()" class="te-key orange w-full !h-12">ARCHIVE & NEW SESSION</button>
+                <div id="final-standings" class="space-y-2 mb-8"></div>
+                <button onclick="resetApp()" class="te-key orange w-full !h-12 !rounded-xl font-semibold">ARCHIVE & NEW SESSION</button>
             </div>
         </section>
     </main>
 
     <footer>
-        <div class="flex gap-10">
-            <div>
-                <p class="label">Version</p>
-                <p class="text-[10px] mt-1">1.8.2-STABLE</p>
+        <div class="flex justify-between items-center w-full">
+            <div class="flex gap-10">
+                <div>
+                    <p class="label">Version</p>
+                    <p class="text-[11px] opacity-60 mt-0.5">1.8.2-STABLE</p>
+                </div>
+                <div>
+                    <p class="label">Developer</p>
+                    <p class="text-[11px] opacity-60 mt-0.5">TERABYTE_EXE</p>
+                </div>
             </div>
-            <div>
-                <p class="label">Developer</p>
-                <p class="text-[10px] mt-1">TERABYTE_EXE</p>
-            </div>
+            <button onclick="resetApp()" class="te-key !h-7 !w-auto px-3 !bg-red-500/10 hover:!bg-red-500/20 !text-red-500 border-none text-[10px] font-semibold !rounded-lg">HARD_RESET</button>
         </div>
-        <button onclick="resetApp()" class="te-key !h-6 !w-auto px-4 !bg-red-500 !text-white !border-red-600 text-[9px]">HARD_RESET</button>
     </footer>
 
     <script>
@@ -168,9 +185,9 @@
         function renderSetup() {
             const list = document.getElementById('player-setup-list');
             list.innerHTML = state.players.map((p, i) => `
-                <div class="flex justify-between items-center bg-white border border-black p-2">
-                    <span class="text-xs font-bold font-mono">${p.name}</span>
-                    <button onclick="removePlayer(${i})" class="text-red-500 text-[9px] font-bold">REMOVE</button>
+                <div class="flex justify-between items-center bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-xl p-3">
+                    <span class="text-xs font-semibold tracking-tight">${p.name}</span>
+                    <button onclick="removePlayer(${i})" class="text-red-500 text-[10px] font-semibold hover:underline">REMOVE</button>
                 </div>`).join('');
         }
 
@@ -218,7 +235,7 @@
         function renderGame() {
             const chips = document.getElementById('player-selector');
             chips.innerHTML = state.players.map((p, i) => `
-                <button onclick="selectPlayer(${i})" class="te-key !w-auto px-4 !h-8 ${state.activeIdx === i ? 'orange' : ''}">${p.name}</button>
+                <button onclick="selectPlayer(${i})" class="te-key !w-auto px-4 !h-8 !rounded-full text-xs ${state.activeIdx === i ? 'orange' : ''}">${p.name}</button>
             `).join('');
             
             const ledger = document.getElementById('ledger-content');
@@ -228,15 +245,15 @@
                 let rel = total - parTotal;
                 return `
                 <div class="mb-4">
-                    <div class="flex justify-between items-baseline border-b border-black mb-2">
-                        <p class="font-bold">${p.name}</p>
-                        <p class="text-xl font-bold">${rel > 0 ? '+' : ''}${rel}</p>
+                    <div class="flex justify-between items-baseline border-b border-black/5 dark:border-white/10 pb-1 mb-2">
+                        <p class="font-semibold text-sm">${p.name}</p>
+                        <p class="text-lg font-bold">${rel > 0 ? '+' : ''}${rel}</p>
                     </div>
-                    <div class="flex flex-wrap gap-1">
+                    <div class="flex flex-wrap gap-1.5">
                         ${p.scores.map((s, i) => `
                             <div class="hole-chip" onclick="editHole(${pIdx}, ${i})">
                                 <p class="text-[8px] opacity-50">H${i+1}</p>
-                                <p class="font-bold">${s}</p>
+                                <p class="font-bold text-xs">${s}</p>
                             </div>`).join('')}
                     </div>
                 </div>`;
@@ -257,18 +274,18 @@
             const sniper = [...stats].sort((a,b) => b.birdies - a.birdies)[0];
             
             document.getElementById('awards-grid').innerHTML = `
-                <div class="te-panel bg-neutral-100 !min-h-0">
+                <div class="te-panel bg-black/5 dark:bg-white/5 !min-h-0 !p-4 border-none">
                     <p class="label">Top Gun</p>
-                    <p class="font-bold">${winner.name}</p>
+                    <p class="font-bold text-base mt-0.5">${winner ? winner.name : 'N/A'}</p>
                 </div>
-                <div class="te-panel bg-neutral-100 !min-h-0">
+                <div class="te-panel bg-black/5 dark:bg-white/5 !min-h-0 !p-4 border-none">
                     <p class="label">Birdies</p>
-                    <p class="font-bold">${sniper.name}</p>
+                    <p class="font-bold text-base mt-0.5">${sniper ? sniper.name : 'N/A'}</p>
                 </div>`;
             
             document.getElementById('final-standings').innerHTML = stats.sort((a,b) => a.rel - b.rel).map((s, i) => `
-                <div class="flex justify-between font-mono text-[10px] py-1 border-b border-black">
-                    <span>${i + 1}. ${s.name}</span>
+                <div class="flex justify-between text-xs py-2 px-3 bg-black/5 dark:bg-white/5 rounded-lg border border-black/5 dark:border-white/5">
+                    <span class="font-medium">${i + 1}. ${s.name}</span>
                     <span class="font-bold">${s.rel > 0 ? '+' : ''}${s.rel} (${s.total})</span>
                 </div>`).join('');
         }
@@ -280,9 +297,13 @@
 
         function toggleTheme() {
             const current = document.body.getAttribute('data-theme');
-            const next = current === 'light' ? 'dark' : 'light';
+            const next = current === 'dark' ? 'light' : 'dark';
             localStorage.setItem('te_theme', next);
-            document.body.setAttribute('data-theme', next);
+            if (next === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+            } else {
+                document.body.removeAttribute('data-theme');
+            }
         }
 
         function resetApp() { if(confirm("ARCHIVE LEDGER?")) { localStorage.clear(); location.reload(); } }
