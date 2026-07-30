@@ -5,44 +5,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terabyte_EXE | App Suite</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Apple System Typography Stack */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+        }
+
+        /* Dark Mode Theme Support */
+        [data-theme="dark"] {
+            background-color: #000000;
+            color: #f5f5f7;
+        }
+
+        /* Glassmorphism Header */
+        .apple-header {
+            background-color: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        [data-theme="dark"] .apple-header {
+            background-color: rgba(22, 22, 23, 0.75);
+        }
+
+        /* Apple Surface Cards */
+        .apple-card {
+            background-color: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease;
+        }
+        .apple-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        }
+        [data-theme="dark"] .apple-card {
+            background-color: #1c1c1e;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        [data-theme="dark"] .apple-card:hover {
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Pill Buttons */
+        .apple-btn {
+            background-color: #0071e3;
+            color: #ffffff;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+        .apple-btn:hover {
+            background-color: #0077ed;
+        }
+        .apple-btn:active {
+            transform: scale(0.95);
+        }
+    </style>
 </head>
-<body class="antialiased"> <header>
-        <div>
-            <p class="label">System Version: 1.8.2</p>
-            <h1 class="text-2xl font-semibold tracking-tight">TERABYTE_EXE // APPS</h1>
-        </div>
-        <div class="flex gap-4 items-center">
-            <div class="text-right">
-                <p class="label">Archive_Status</p>
-                <p class="value">Index: 05</p>
+<body class="min-h-screen flex flex-col justify-between antialiased">
+
+    <header class="apple-header sticky top-0 z-50 border-b border-black/5 dark:border-white/10 px-6 py-4">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <div>
+                <p class="label text-[11px] font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">System Version: 1.8.2</p>
+                <h1 class="text-xl font-semibold tracking-tight">TERABYTE_EXE <span class="font-normal text-gray-400 dark:text-gray-500">//</span> APPS</h1>
             </div>
-            <button class="te-key orange" onclick="toggleTheme()" aria-label="Toggle Theme">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-            </button>
+            <div class="flex items-center gap-6">
+                <div class="text-right hidden sm:block">
+                    <p class="label text-[11px] font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Archive_Status</p>
+                    <p class="value text-sm font-medium text-gray-800 dark:text-gray-200">Index: 05</p>
+                </div>
+                <button class="te-key orange w-8 h-8 rounded-full bg-orange-500/10 hover:bg-orange-500/20 text-orange-500 flex items-center justify-center transition-all active:scale-95" onclick="toggleTheme()" aria-label="Toggle Theme">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="5" />
+                    </svg>
+                </button>
+            </div>
         </div>
     </header>
 
-    <main class="te-grid mt-6">
-        <div class="te-panel">
-            <div>
-                <p class="label">Mod_01 // WIP</p>
-                <p class="value text-xl">DG_Trakr</p>
-                <p class="text-sm mt-2 text-gray-500 dark:text-gray-400">Beautiful disc golf score tracking.</p>
-            </div>
-            <div class="flex justify-between items-end">
-                <p class="label">Status: WIP</p>
-                <a href="./dg-trakr/dg-trakr.html" class="te-key">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-                </a>
+    <main class="max-w-5xl mx-auto w-full px-6 py-12 flex-grow">
+        <div class="te-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="te-panel apple-card rounded-2xl p-6 flex flex-col justify-between h-56 shadow-sm">
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <p class="label text-[11px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500">Mod_01 // WIP</p>
+                        <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                    </div>
+                    <p class="value text-2xl font-semibold tracking-tight mb-1">DG_Trakr</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">Beautiful disc golf score tracking.</p>
+                </div>
+                <div class="flex justify-between items-center pt-4 border-t border-gray-100 dark:border-white/5">
+                    <p class="label text-xs font-medium text-gray-400 dark:text-gray-500">Status: WIP</p>
+                    <a href="./dg-trakr/dg-trakr.html" class="te-key apple-btn w-9 h-9 rounded-full flex items-center justify-center font-medium shadow-sm text-sm">
+                        →
+                    </a>
+                </div>
             </div>
         </div>
     </main>
 
-    <footer class="flex gap-10">
+    <footer class="max-w-5xl mx-auto w-full px-6 py-8 border-t border-black/5 dark:border-white/10 flex justify-between items-center">
         <div>
-            <p class="label">Logic</p>
-            <p class="text-xs mt-1 text-gray-500 dark:text-gray-400">Utility Software Archive // v1.8.2</p>
+            <p class="label text-xs font-medium text-gray-500 dark:text-gray-400">Logic</p>
+            <p class="text-[11px] text-gray-400 dark:text-gray-500 mt-0.5">Utility Software Archive // v1.8.2</p>
         </div>
     </footer>
 
