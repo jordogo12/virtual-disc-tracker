@@ -1,28 +1,29 @@
 /* TERABYTE_EXE // SYSTEM STYLES 
-   Inspiration: Teenage Engineering / Industrial Design 
+   Inspiration: Apple / Cupertino Design 
+   Note: Maintained original class and variable names for HTML compatibility.
 */
 
 :root {
     /* LIGHT MODE (DEFAULT) */
-    --te-bg: #e5e5e5;
-    --te-panel: #f0f0f0;
-    --te-text: #222222;
-    --te-orange: #ff4d00;
-    --te-border: #cccccc;
-    --te-key-bg: #ffffff;
-    --te-key-shadow: #bbbbbb;
-    --te-font: 'JetBrains Mono', monospace;
+    --te-bg: #f5f5f7; /* Apple's standard light gray */
+    --te-panel: #ffffff;
+    --te-text: #1d1d1f;
+    --te-orange: #0071e3; /* Swapped to Apple Blue, keeping var name */
+    --te-border: rgba(0, 0, 0, 0.1);
+    --te-key-bg: #e8e8ed;
+    --te-key-shadow: rgba(0, 0, 0, 0.05);
+    --te-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 [data-theme="dark"] {
-    /* DARK MODE (FIELD) */
-    --te-bg: #111111;
-    --te-panel: #1a1a1a;
-    --te-text: #e5e5e5;
-    --te-orange: #ff4d00;
-    --te-border: #333333;
-    --te-key-bg: #222222;
-    --te-key-shadow: #000000;
+    /* DARK MODE */
+    --te-bg: #000000;
+    --te-panel: #1c1c1e; /* Apple's standard dark mode gray */
+    --te-text: #f5f5f7;
+    --te-orange: #0a84ff; /* Apple's dark mode blue */
+    --te-border: rgba(255, 255, 255, 0.15);
+    --te-key-bg: #2c2c2e;
+    --te-key-shadow: rgba(0, 0, 0, 0.4);
 }
 
 * {
@@ -36,46 +37,50 @@ body {
     color: var(--te-text);
     font-family: var(--te-font);
     padding: 20px;
-    transition: background 0.2s ease;
+    transition: background 0.3s ease, color 0.3s ease;
+    -webkit-font-smoothing: antialiased; /* Crisp text rendering */
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* TYPOGRAPHY */
 .label { 
-    font-size: 10px; 
-    text-transform: uppercase; 
-    letter-spacing: 0.05em; 
+    font-size: 12px; 
+    font-weight: 500;
+    letter-spacing: 0; 
     opacity: 0.6; 
-    margin-bottom: 2px;
+    margin-bottom: 4px;
+    /* Removed uppercase for a cleaner iOS look */
 }
 
 .value { 
-    font-size: 14px; 
-    font-weight: 700; 
-    text-transform: uppercase; 
+    font-size: 16px; 
+    font-weight: 600; 
 }
 
 h1, h2, h3 { 
-    letter-spacing: -0.05em; 
-    text-transform: uppercase; 
+    font-weight: 600;
+    letter-spacing: -0.02em; /* SF Pro signature tight tracking */
 }
 
 /* LAYOUT ENGINE */
 .te-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 1px;
-    background: var(--te-border);
-    border: 1px solid var(--te-border);
+    gap: 16px; /* Swapped 1px mechanical seam for spacious grid */
+    background: transparent;
+    border: none;
 }
 
 .te-panel {
     background: var(--te-panel);
-    padding: 20px;
+    padding: 24px;
     min-height: 220px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: background 0.2s ease;
+    border-radius: 18px; /* Classic Apple soft corner */
+    box-shadow: 0 4px 14px var(--te-key-shadow); /* Ambient shadow */
+    transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* INTERACTIVES */
@@ -84,39 +89,46 @@ h1, h2, h3 {
     height: 42px;
     background: var(--te-key-bg);
     border-radius: 50%;
-    border: 1px solid var(--te-border);
-    box-shadow: 0 3px 0 var(--te-key-shadow);
+    border: none; /* Removed hard hardware border */
+    box-shadow: 0 2px 8px var(--te-key-shadow);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.1s;
+    transition: all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
     cursor: pointer;
     text-decoration: none;
     color: inherit;
-    font-weight: bold;
+    font-weight: 500;
 }
 
 .te-key:hover {
-    filter: brightness(1.05);
+    filter: brightness(0.95);
+}
+
+[data-theme="dark"] .te-key:hover {
+    filter: brightness(1.15);
 }
 
 .te-key:active {
-    transform: translateY(2px);
-    box-shadow: 0 1px 0 var(--te-key-shadow);
+    transform: scale(0.92); /* Apple's signature "squish" interaction */
+    box-shadow: 0 1px 4px var(--te-key-shadow);
 }
 
 .te-key.orange {
     background: var(--te-orange);
-    border-color: #cc3e00;
-    box-shadow: 0 3px 0 #cc3e00;
-    color: white;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 113, 227, 0.3); /* Glowing accent shadow */
+}
+
+[data-theme="dark"] .te-key.orange {
+    box-shadow: 0 4px 12px rgba(10, 132, 255, 0.3);
 }
 
 /* HEADER/FOOTER */
 header {
     border-bottom: 1px solid var(--te-border);
     padding-bottom: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
