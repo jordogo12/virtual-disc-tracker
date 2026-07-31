@@ -1,1 +1,1 @@
-VR Disc Tracker for tracking discs by the fatty jordan
+VR Disc Tracker for people who don't want to open their bag. 
